@@ -5,13 +5,10 @@ import Fluent
 var drop = Droplet()
 
 try drop.addProvider(VaporPostgreSQL.Provider)
+drop.preparations += Professor.self
 
-drop.get { req in
-    return try drop.view.make("welcome", [
-    	"message": drop.localization[req.lang, "welcome", "title"]
-    ])
-}
+let profcontroller = ProfessorsController()
+profcontroller.addRoutes(drop: drop)
 
-drop.resource("posts", PostController())
 
 drop.run()

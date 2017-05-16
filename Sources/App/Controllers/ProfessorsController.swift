@@ -12,6 +12,7 @@ final class ProfessorsController {
     }
     
     func index(request: Request) throws -> ResponseRepresentable {
+        print("Track this one")
         return try JSON(node: Professor.all().makeNode())
     }
     

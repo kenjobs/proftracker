@@ -19,15 +19,24 @@ final class Professor: Model{
     }
     
     init(node: Node, in context: Context) throws {
+        print("Track this two")
+        print("1")
         id = try node.extract("id")
-        firstName = try node.extract("firstName")
-        middleName = try node.extract("middleName")
-        lastName = try node.extract("lastName")
+        print("2")
+        firstName = try node.extract("firstname")
+        print("3")
+        middleName = try node.extract("middlename")
+        print("4")
+        lastName = try node.extract("lastname")
+        print("5")
         department = try node.extract("department")
-        profilePictureUrl = try node.extract("profilePictureUrl")
+        print("6")
+        profilePictureUrl = try node.extract("profilepictureurl")
+        print("7")
     }
     
     func makeNode(context: Context) throws -> Node {
+        print("Track this three")
         return try Node(node:
             [
                 "id" : id,
@@ -40,13 +49,13 @@ final class Professor: Model{
     }
     
     static func prepare(_ database: Database) throws {
-        try database.create("prfoessors", closure: { (users) in
-            users.id()
-            users.string("firstName")
-            users.string("middleName")
-            users.string("lastName")
-            users.string("department")
-            users.string("profilePictureUrl")
+        try database.create("professors", closure: { (professors) in
+            professors.id()
+            professors.string("firstName")
+            professors.string("middleName")
+            professors.string("lastName")
+            professors.string("department")
+            professors.string("profilePictureUrl")
         })
     }
     

@@ -40,22 +40,22 @@ final class Professor: Model{
         return try Node(node:
             [
                 "id" : id,
-                "firstName" : firstName,
-                "middleName" : middleName,
-                "lastName" : lastName,
+                "firstname" : firstName,
+                "middlename" : middleName,
+                "lastname" : lastName,
                 "department" : department,
-                "profilePictureUrl" : profilePictureUrl
+                "profile_picture_url" : profilePictureUrl
             ])
     }
     
     static func prepare(_ database: Database) throws {
         try database.create("professors", closure: { (professors) in
             professors.id()
-            professors.string("firstName")
-            professors.string("middleName")
-            professors.string("lastName")
+            professors.string("firstname")
+            professors.string("middlename")
+            professors.string("lastname")
             professors.string("department")
-            professors.string("profilePictureUrl")
+            professors.string("profile_picture_url")
         })
     }
     

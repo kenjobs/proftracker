@@ -31,7 +31,7 @@ final class Professor: Model{
         print("5")
         department = try node.extract("department")
         print("6")
-        profilePictureUrl = try node.extract("profilepictureurl")
+        profilePictureUrl = try node.extract("profile_picture_url")
         print("7")
     }
     

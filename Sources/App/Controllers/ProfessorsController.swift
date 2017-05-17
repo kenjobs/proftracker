@@ -11,11 +11,11 @@ final class ProfessorsController {
         basic.get(Professor.self, handler: show)
         
         
-        basic.post(Professor.self, "createSchedule", handler: createSchedule)
+        basic.post("createSchedule", handler: createSchedule)
         basic.get(Professor.self, "schedules", handler: showSchedules)
     }
     
-    func createSchedule(request: Request, professor: Professor) throws -> ResponseRepresentable {
+    func createSchedule(request: Request) throws -> ResponseRepresentable {
         var schedule = try request.schedule()
         try schedule.save()
         

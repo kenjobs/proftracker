@@ -5,7 +5,7 @@ final class ProfessorsController {
     
     func addRoutes(drop: Droplet){
         let basic = drop.grouped("professors")
-        basic.post(handler: create)
+        basic.post(handler: addProfessor)
         basic.get(handler: index)
         basic.delete(Professor.self, handler: delete)
         basic.get(Professor.self, handler: showProfessor)
@@ -56,15 +56,20 @@ final class ProfessorsController {
     func addProfessor(request: Request) throws -> ResponseRepresentable {
         
         print("Calling in")
-        guard let firstName = request.data["firstName"]?.string, let lastName = request.data["lastName"]?.string, let middleName = request.data["middleName"]?.string, let department = request.data["department"]?.string, let profilePictureUrl = request.data["profilePictureUrl"]?.string else {
+        guard let firstName = request.data["firstname"]?.string, let lastName = request.data["lastname"]?.string, let middleName = request.data["middlename"]?.string, let department = request.data["department"]?.string, let profilePictureUrl = request.data["profile_picture_url"]?.string else {
             
             print("Bad request")
             throw Abort.badRequest
         }
         
+        print("Calling 2")
         var professor = Professor(firstName: firstName, middleName: middleName, lastName: lastName, department: department, profilePictureUrl: profilePictureUrl)
         
+        print("Calling 3")
+        
         try professor.save()
+        
+        print("Calling 4")
         
         return professor
     }

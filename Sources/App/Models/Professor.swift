@@ -9,6 +9,8 @@ final class Professor: Model{
     var department: String
     var profilePictureUrl: String
     
+    var profSchedules: Node?
+    
     init(firstName: String, middleName: String, lastName: String, department: String, profilePictureUrl: String) {
         self.id = nil
         self.firstName = firstName
@@ -32,6 +34,8 @@ final class Professor: Model{
         department = try node.extract("department")
         print("6")
         profilePictureUrl = try node.extract("profile_picture_url")
+        
+        //profSchedules = try node.extract("schedules")
         print("7")
     }
     
@@ -45,6 +49,7 @@ final class Professor: Model{
                 "lastname" : lastName,
                 "department" : department,
                 "profile_picture_url" : profilePictureUrl
+                //"schedules": try schedules().makeNode()
             ])
     }
     

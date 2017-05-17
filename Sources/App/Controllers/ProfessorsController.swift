@@ -10,9 +10,14 @@ final class ProfessorsController {
         basic.delete(Professor.self, handler: delete)
         basic.get(Professor.self, handler: show)
         
-        
+        basic.get(handler: showProfessorWithSchedules)
+        // SCHEDULES RELATED
         basic.post("createSchedule", handler: createSchedule)
         basic.get(Professor.self, "schedules", handler: showSchedules)
+    }
+    
+    func showProfessorWithSchedules(request: Request) throws -> ResponseRepresentable {
+        return try JSON(node: Professor.all().makeNode())
     }
     
     func createSchedule(request: Request) throws -> ResponseRepresentable {
@@ -28,9 +33,21 @@ final class ProfessorsController {
         return try JSON(node: schedules.makeNode())
     }
 
+    func addProfessor(request: Request) throws -> ResponseRepresentable {
+        guard let firstName = request.data["firstname"]?.string, let lastName = request.data["lastname"]?.string, let middleName = request.data["middlename"]?.string, let department = request.data["department"]?.string, let profilePictureUrl = request.data["profile_picture_url"]?.string else {
+            throw Abort.badRequest
+        }
+        
+        var professor = Professor(firstName: firstName, middleName: middleName, lastName: lastName, department: department, profilePictureUrl: profilePictureUrl)
+        
+        try professor.save()
+        
+        return professor
+    }
+    
+    // BASIC METHODS FOR PROFESSORS
     
     func index(request: Request) throws -> ResponseRepresentable {
-        print("Track this one")
         return try JSON(node: Professor.all().makeNode())
     }
     
@@ -62,27 +79,6 @@ final class ProfessorsController {
         try professor.delete()
         
         return JSON([:])
-    }
-    
-    func addProfessor(request: Request) throws -> ResponseRepresentable {
-        
-        print("Calling in")
-        guard let firstName = request.data["firstname"]?.string, let lastName = request.data["lastname"]?.string, let middleName = request.data["middlename"]?.string, let department = request.data["department"]?.string, let profilePictureUrl = request.data["profile_picture_url"]?.string else {
-            
-            print("Bad request")
-            throw Abort.badRequest
-        }
-        
-        print("Calling 2")
-        var professor = Professor(firstName: firstName, middleName: middleName, lastName: lastName, department: department, profilePictureUrl: profilePictureUrl)
-        
-        print("Calling 3")
-        
-        try professor.save()
-        
-        print("Calling 4")
-        
-        return professor
     }
 }
 

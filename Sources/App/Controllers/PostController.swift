@@ -3,6 +3,7 @@ import HTTP
 
 final class PostController: ResourceRepresentable {
     func index(request: Request) throws -> ResponseRepresentable {
+    
         return try Post.all().makeNode().converted(to: JSON.self)
     }
 

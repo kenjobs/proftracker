@@ -18,6 +18,7 @@ final class ProfessorsController {
     }
     
     func showProfessorWithSchedules(request: Request) throws -> ResponseRepresentable {
+        Professor.includeSchedules = true
         return try JSON(node: Professor.all().makeNode())
     }
     
@@ -48,6 +49,7 @@ final class ProfessorsController {
     }
 
     func addProfessor(request: Request) throws -> ResponseRepresentable {
+        Professor.includeSchedules = false
         guard let firstName = request.data["firstname"]?.string, let lastName = request.data["lastname"]?.string, let middleName = request.data["middlename"]?.string, let department = request.data["department"]?.string, let profilePictureUrl = request.data["profile_picture_url"]?.string else {
             throw Abort.badRequest
         }

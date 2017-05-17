@@ -11,6 +11,9 @@ final class Professor: Model{
     
     var profSchedules: Node?
     
+    
+    static var includeSchedules = false
+    
     init(firstName: String, middleName: String, lastName: String, department: String, profilePictureUrl: String) {
         self.id = nil
         self.firstName = firstName
@@ -41,16 +44,22 @@ final class Professor: Model{
     
     func makeNode(context: Context) throws -> Node {
         print("Track this three")
-        return try Node(node:
-            [
-                "id" : id,
-                "firstname" : firstName,
-                "middlename" : middleName,
-                "lastname" : lastName,
-                "department" : department,
-                "profile_picture_url" : profilePictureUrl
-                //"schedules": try schedules().makeNode()
-            ])
+        
+        var node = [
+            "id" : id,
+            "firstname" : firstName.makeNode(),
+            "middlename" : middleName.makeNode(),
+            "lastname" : lastName.makeNode(),
+            "department" : department.makeNode(),
+            "profile_picture_url" : profilePictureUrl.makeNode()
+            //"schedules": try schedules().makeNode()
+        ];
+        
+        if Professor.includeSchedules {
+            node["schedules"] = try schedules().makeNode()
+        }
+        
+        return try Node(node: node)
     }
     
     static func prepare(_ database: Database) throws {

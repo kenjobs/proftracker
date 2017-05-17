@@ -13,12 +13,26 @@ final class ProfessorsController {
         basic.get(handler: showProfessorWithSchedules)
         // SCHEDULES RELATED
         basic.post("createSchedule", handler: createSchedule)
+        basic.post("updateSchedule", Schedule.self, handler: updateScheduleStatus)
         basic.get(Professor.self, "schedules", handler: showSchedules)
     }
     
     func showProfessorWithSchedules(request: Request) throws -> ResponseRepresentable {
         return try JSON(node: Professor.all().makeNode())
     }
+    
+    func updateScheduleStatus(request: Request, schedule: Schedule) throws -> ResponseRepresentable {
+        guard let attending = request.data["attending"]?.bool else {
+            throw Abort.badRequest
+        }
+    
+        var schedule = schedule
+        schedule.status = ((attending) ? "ATTENDING" : "NOT ATTENDING")
+        try schedule.save()
+        
+        return schedule
+    }
+
     
     func createSchedule(request: Request) throws -> ResponseRepresentable {
         var schedule = try request.schedule()

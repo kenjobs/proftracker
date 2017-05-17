@@ -19,7 +19,10 @@ final class ProfessorsController {
     
     func showProfessorWithSchedules(request: Request) throws -> ResponseRepresentable {
         Professor.includeSchedules = true
-        return try JSON(node: Professor.all().makeNode())
+        
+        let payload = ["Professors": try Professor.all().makeNode()]
+        
+        return try JSON(node: payload)
     }
     
     func updateScheduleStatus(request: Request, schedule: Schedule) throws -> ResponseRepresentable {
